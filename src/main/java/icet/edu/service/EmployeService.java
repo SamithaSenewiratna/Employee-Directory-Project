@@ -1,5 +1,7 @@
 package icet.edu.service;
 import icet.edu.dto.Employe;
+
+import java.io.IOException;
 import java.util.List;
 public interface EmployeService {
 
@@ -15,5 +17,8 @@ public interface EmployeService {
     Employe getEmployeeById(Long id);
 
     List<Employe> searchByName(String name);
+
+    byte[] generateReport() throws IOException; // in interface
+
 
 }
