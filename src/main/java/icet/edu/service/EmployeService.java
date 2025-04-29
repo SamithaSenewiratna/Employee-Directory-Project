@@ -7,6 +7,7 @@ public interface EmployeService {
     void deleteEmploye(Integer id);
     void updateEmploye();
     List<Employe> getEmployes();
+    List<Employe> searchById(Integer id);
     List<Employe> searchByName(String name);
 
 }

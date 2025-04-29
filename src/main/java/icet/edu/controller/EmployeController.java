@@ -46,6 +46,10 @@ public class EmployeController {
     public List<Employe> searchByName(@PathVariable String name) {
         return service.searchByName(name);
     }
+    @GetMapping("/searchById/{id}")
+    public List<Employe> searchById(@PathVariable Integer id) {
+        return service.searchById(id);
+    }
 
 
 }
