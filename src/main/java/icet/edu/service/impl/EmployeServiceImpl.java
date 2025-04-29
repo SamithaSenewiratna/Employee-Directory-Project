@@ -7,7 +7,7 @@ import icet.edu.service.EmployeService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,62 +15,47 @@ import java.util.List;
 public class EmployeServiceImpl implements EmployeService {
 
 
-    final EmployeRepository repository;
-    final ModelMapper mapper;
+    private final EmployeRepository repository;
+    private final ModelMapper mapper;
 
     @Override
-    public void addEmploye(Employe employe) {
-      repository.save(mapper.map(employe, EmployeEntity.class));
-
+    public void addEmployee(Employe employe) {
+        repository.save(mapper.map(employe, EmployeEntity.class));
     }
 
     @Override
-    public void deleteEmploye(Integer id) {
-       if (repository.existsById(Long.valueOf(id))) {
-            repository.deleteById(Long.valueOf(id));
+    public List<Employe> getAllEmployees() {
+        List<EmployeEntity> all = repository.findAll();
+        return all.stream()
+                .map(entity -> mapper.map(entity, Employe.class))
+                .toList();
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
         } else {
-            throw new RuntimeException("Employe with ID " + id + " not found");
+            throw new RuntimeException("Employee with ID " + id + " not found");
         }
     }
 
     @Override
-    public void updateEmploye() {
-      repository.save(mapper.map(new Employe(), EmployeEntity.class));
-
+    public void updateEmployee(Employe employe) {
+        repository.save(mapper.map(employe, EmployeEntity.class));
     }
 
     @Override
-    public List<Employe> getEmployes() {
-        Iterable<EmployeEntity> all = repository.findAll();
-        List<Employe> list = new ArrayList<>();
-
-        all.forEach(EmployeEntity -> {
-            list.add(mapper.map(EmployeEntity, Employe.class));
-        });
-
-        return list;
-    }
-
-    @Override
-    public List<Employe> searchById(Integer id) {
-        EmployeEntity employeEntity = repository.findById(Long.valueOf(id)).orElse(null);
-        List<Employe> employes = new ArrayList<>();
-
-        if (employeEntity != null) {
-            employes.add(mapper.map(employeEntity, Employe.class));
-        }
-        return employes;
+    public Employe getEmployeeById(Long id) {
+        EmployeEntity employeEntity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee with ID " + id + " not found"));
+        return mapper.map(employeEntity, Employe.class);
     }
 
     @Override
     public List<Employe> searchByName(String name) {
-        List<EmployeEntity> employeEntities = repository.findByName(name);
-        List<Employe> employes = new ArrayList<>();
-
-        for (EmployeEntity entity : employeEntities) {
-            employes.add(mapper.map(entity, Employe.class));
-        }
-
-        return employes;
-    }
-}
+        List<EmployeEntity> entities = repository.findByName(name);
+        return entities.stream()
+                .map(entity -> mapper.map(entity, Employe.class))
+                .toList();
+    }}

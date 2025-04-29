@@ -3,11 +3,17 @@ import icet.edu.dto.Employe;
 import java.util.List;
 public interface EmployeService {
 
-    void addEmploye(Employe employe);
-    void deleteEmploye(Integer id);
-    void updateEmploye();
-    List<Employe> getEmployes();
-    List<Employe> searchById(Integer id);
+
+    void addEmployee(Employe employe);
+
+    List<Employe> getAllEmployees();
+
+    void deleteEmployee(Long id);
+
+    void updateEmployee(Employe employe);
+
+    Employe getEmployeeById(Long id);
+
     List<Employe> searchByName(String name);
 
 }

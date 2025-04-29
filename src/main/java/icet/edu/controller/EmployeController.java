@@ -1,5 +1,7 @@
 package icet.edu.controller;
 
+
+
 import icet.edu.dto.Employe;
 import icet.edu.service.EmployeService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping("/employe")
 public class EmployeController {
 
@@ -19,27 +21,22 @@ public class EmployeController {
 
     @GetMapping("/get-All")
     public List<Employe> getAll() {
-        return service.getEmployes();
+        return service.getAllEmployees();
     }
 
     @PostMapping("/add")
     public void addEmploye(@RequestBody Employe employe) {
-        service.addEmploye(employe);
+        service.addEmployee(employe);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteEmploye(@PathVariable Integer id) {
-        service.deleteEmploye(id);
+        service.deleteEmployee(Long.valueOf(id));
     }
 
     @PutMapping("/update")
-    public void updateEmploye() {
-        service.updateEmploye();
-    }
-
-    @GetMapping("/searchById/{id}")
-    public String searchEmploye(@PathVariable Integer id) {
-        return "hello";
+    public void updateEmploye( @RequestBody Employe employe) {
+        service.updateEmployee(employe);
     }
 
     @GetMapping("/searchByName/{name}")
@@ -48,7 +45,7 @@ public class EmployeController {
     }
     @GetMapping("/searchById/{id}")
     public List<Employe> searchById(@PathVariable Integer id) {
-        return service.searchById(id);
+        return service.searchByName(String.valueOf(id));
     }
 
 
