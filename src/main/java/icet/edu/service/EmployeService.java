@@ -18,7 +18,7 @@ public interface EmployeService {
 
     List<Employe> searchByName(String name);
 
-    byte[] generateReport() throws IOException; // in interface
+    byte[] generateReport() throws IOException;
 
 
 }
