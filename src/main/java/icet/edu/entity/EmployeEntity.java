@@ -1,5 +1,6 @@
 package icet.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class EmployeEntity {
 
     @Column(nullable = false)
     private String department;
+
 
     private LocalDateTime createdAt;
 

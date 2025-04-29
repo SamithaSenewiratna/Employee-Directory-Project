@@ -14,12 +14,22 @@ import java.util.List;
 @Service
 public class EmployeServiceImpl implements EmployeService {
 
-
     private final EmployeRepository repository;
     private final ModelMapper mapper;
 
     @Override
     public void addEmployee(Employe employe) {
+
+        if (employe.getName() == null || employe.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Name is required");
+        }
+        if (employe.getEmail() == null || employe.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (employe.getDepartment() == null || employe.getDepartment().trim().isEmpty()) {
+            throw new IllegalArgumentException("Department is required");
+        }
+
         repository.save(mapper.map(employe, EmployeEntity.class));
     }
 
@@ -42,6 +52,20 @@ public class EmployeServiceImpl implements EmployeService {
 
     @Override
     public void updateEmployee(Employe employe) {
+
+        if (employe.getId() == null || !repository.existsById(employe.getId())) {
+            throw new IllegalArgumentException("Employee ID is invalid or not found");
+        }
+        if (employe.getName() == null || employe.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Name is required");
+        }
+        if (employe.getEmail() == null || employe.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (employe.getDepartment() == null || employe.getDepartment().trim().isEmpty()) {
+            throw new IllegalArgumentException("Department is required");
+        }
+
         repository.save(mapper.map(employe, EmployeEntity.class));
     }
 
@@ -58,4 +82,6 @@ public class EmployeServiceImpl implements EmployeService {
         return entities.stream()
                 .map(entity -> mapper.map(entity, Employe.class))
                 .toList();
-    }}
+    }
+
+}
